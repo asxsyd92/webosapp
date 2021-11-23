@@ -1,0 +1,19 @@
+{
+	"pages": [ 
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		}
+	],
+	"globalStyle": {
+		"backgroundTextStyle": "light",
+		"navigationBarBackgroundColor": "#2db7f5",
+		"navigationBarTitleText": "一本正经",
+		"navigationBarTextStyle": "white",
+		"mp-360": {
+			"navigationStyle": "custom"
+		}
+	}
+}
