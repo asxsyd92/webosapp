@@ -32,25 +32,7 @@ axios.interceptors.request.use(
  
   }
   return config;
-    // console.log('请求路径', config.url)
-    // if (config.url.indexOf('/222222') != -1) {
-    //   config.headers = {
-    //     'Content-Type': 'application/x-www-form-urlencoded'
-    //   }
-    //   config.data = Qs.stringify(config.data)
-    // } else if (config.url.indexOf('.aliyuncs.com') != -1) {
-    //   // 此处设置文件上传，配置单独请求头
-    //   config.headers = {
-    //     'Content-Type': 'multipart/form-data'
-    //   }
-    // } else {
-    //   config.headers = {
-    //     'Content-Type': 'application/json'
-    //   }
-    //   config.data = Qs.parse(config.data)
-    // }
-   // config.headers["test"] = "323232323232";
-    //return config
+
   },
   err => {
     return Promise.reject(err)
