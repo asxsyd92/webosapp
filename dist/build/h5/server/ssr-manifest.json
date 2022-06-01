@@ -1,0 +1,36 @@
+{
+  "vite/modulepreload-polyfill": [],
+  "vite/preload-helper": [],
+  "node_modules/@vue/shared/dist/shared.esm-bundler.js": [],
+  "node_modules/@dcloudio/uni-shared/dist/uni-shared.es.js": [],
+  "node_modules/@dcloudio/uni-h5-vue/dist/vue.runtime.esm.js": [],
+  "node_modules/@dcloudio/uni-i18n/dist/uni-i18n.es.js": [],
+  "node_modules/vue-router/dist/vue-router.esm-bundler.js": [],
+  "node_modules/@dcloudio/uni-h5/dist/uni-h5.es.js": [],
+  "src/manifest-json-js": [],
+  "node_modules/@dcloudio/uni-h5/style/framework/base.css": [],
+  "node_modules/@dcloudio/uni-h5/style/framework/shadow.css": [],
+  "node_modules/@dcloudio/uni-h5/style/framework/async.css": [],
+  "node_modules/@dcloudio/uni-h5/style/framework/pageHead.css": [],
+  "src/pages-json-js": [],
+  "node_modules/@dcloudio/uni-app/dist/uni-app.es.js": [],
+  "src/App.vue": [],
+  "src/main.ts": [],
+  "index.html": [],
+  "../../../static/logo.png": [
+    "/assets/pages-index-index.48032fba.js",
+    "/assets/index.04f3b4ef.css"
+  ],
+  "src/pages/index/index.vue?vue&type=style&index=0&scoped=true&lang.css": [
+    "/assets/pages-index-index.48032fba.js",
+    "/assets/index.04f3b4ef.css"
+  ],
+  "plugin-vue:export-helper": [
+    "/assets/pages-index-index.48032fba.js",
+    "/assets/index.04f3b4ef.css"
+  ],
+  "src/pages/index/index.vue": [
+    "/assets/pages-index-index.48032fba.js",
+    "/assets/index.04f3b4ef.css"
+  ]
+}

@@ -375,7 +375,7 @@
 						selectedArr.push(item[this.map.value])
 					}
 				})
-				return this.dataValue.length > 0 ? this.dataValue : selectedArr
+				return this.dataValue && this.dataValue.length > 0 ? this.dataValue : selectedArr
 			},
 
 			/**
@@ -447,7 +447,7 @@
 	}
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 	$checked-color: #2979ff;
 	$border-color: #DCDFE6;
 	$disable:0.4;
