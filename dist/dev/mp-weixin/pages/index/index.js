@@ -17,7 +17,6 @@ if (!Math) {
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   setup(__props) {
     const list = common_vendor.ref([]);
-    list.value = [{ text: "Grid 1", badge: "0", type: "primary" }, { text: "Grid 2", badge: "1", type: "success" }, { text: "Grid 3", badge: "99", type: "warning" }];
     common_vendor.onLoad(() => {
       init();
     });
@@ -38,7 +37,6 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
           list.value = res.data;
         }
       }).catch((resp) => {
-        console.log(resp);
       });
     };
     return (_ctx, _cache) => {
@@ -58,10 +56,12 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         }),
         c: common_vendor.f(list.value, (item, index, i0) => {
           return {
-            a: common_vendor.t(item.text),
-            b: index,
-            c: "8ae7f758-5-" + i0 + ",8ae7f758-4",
-            d: common_vendor.p({
+            a: common_vendor.n(item.other),
+            b: common_vendor.s(item.value),
+            c: common_vendor.t(item.title),
+            d: index,
+            e: "8ae7f758-5-" + i0 + ",8ae7f758-4",
+            f: common_vendor.p({
               index
             })
           };

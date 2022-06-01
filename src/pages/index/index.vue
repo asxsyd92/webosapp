@@ -23,8 +23,8 @@
 					<uni-grid :column="3" :highlight="true" @change="change">
 						<uni-grid-item v-for="(item, index) in list" :index="index" :key="index">
 							<view class="grid-item-box">
-								<!-- <image :src="item.url" class="image" mode="aspectFill" /> -->
-								<text class="text">{{ item.text }}</text>
+								<view :class="item.other" :style="item.value"> </view>
+								<text class="text">{{ item.title }}</text>
 							</view>
 						</uni-grid-item>
 					</uni-grid>
@@ -37,11 +37,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref ,onMounted} from 'vue';
+import { ref} from 'vue';
 import { onLoad } from "@dcloudio/uni-app";
 import http from '../../utils/http';
 const list=ref( []);
-list.value=[{text:'Grid 1',badge:'0',type:"primary"},{text:'Grid 2',badge:'1',type:"success"},{text:'Grid 3',badge:'99',type:"warning"}] as any;
 const	getMore=function() {
 				uni.showToast({
 					title: '点击查看更多',
@@ -65,16 +64,13 @@ const	getMore=function() {
 			
 			const init=function(){
 				console.log("开始请求");
-			http.post("https://asxsyd92.com" + "/api/applets/GetBycode",{"code":"asxsydboke"},"请稍等").then(res => {
+			http.post("https://asxsyd92.com" + "/api/applets/GetBycode",{"code":"asxsydboke"},"请稍等").then((res:any) => {
 							
 								console.log(res);
 								if (res.success) {
 									list.value = res.data;
 								}
-				
-							}).catch(resp => {
-				console.log(resp);
-				
+							}).catch((resp:any) => {
 							});
 			}
 </script>
@@ -151,7 +147,7 @@ const	getMore=function() {
 	}
 
 	.swiper {
-		height: 250px;
+		height: 300px;
 	}
 
 	/* #ifdef H5 */
