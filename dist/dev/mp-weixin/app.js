@@ -2,7 +2,11 @@
 Object.defineProperties(exports, { __esModule: { value: true }, [Symbol.toStringTag]: { value: "Module" } });
 var common_vendor = require("./common/vendor.js");
 if (!Math) {
-  "./pages/index/index.js";
+  "./pages/tabBar/home.js";
+  "./pages/tabBar/personal.js";
+  "./pages/tabBar/work.js";
+  "./pages/workrun/index.js";
+  "./pages/oa/waitlist.js";
 }
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   setup(__props) {

@@ -10,4 +10,9 @@ onHide(() => {
   console.log("App Hide");
 });
 </script>
-<style></style>
+<style lang="scss">
+   @import './assets/css/layui.css';  
+  @import './assets/css/site.css'; 
+  @import './assets/css/articledetail.css'; 
+  @import './assets/css/wangEditor.css';  
+</style>

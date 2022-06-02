@@ -1,0 +1,20 @@
+@font-face {
+  font-family: "zyf"; /* Project id 3349210 */
+  src: url('//at.alicdn.com/t/font_3349210_rps917vlxtp.ttf?t=1650591859985') format('truetype');
+}
+
+.zyf {
+  font-family: "zyf" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-wenjian:before {
+  content: "\e793";
+}
+
+.icon-folderPlus:before {
+  content: "\eac5";
+}

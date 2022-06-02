@@ -16,18 +16,18 @@
 					<ad unit-id="adunit-d0afedca1cfb4087" ad-type="video" ad-theme="white"></ad>
 					<!-- #endif  -->
 		</uni-section>
-    <uni-section title="滑动视图" type="line" padding>
+        <uni-section title="滑动视图" type="line" padding>
 			<!-- 因为swiper特性的关系，请指定swiper的高度 ，swiper的高度并不会被内容撑开-->
 			<swiper class="swiper" :indicator-dots="true">
 				<swiper-item>
-					<uni-grid :column="3" :highlight="true" @change="change">
-						<uni-grid-item v-for="(item, index) in list" :index="index" :key="index">
-							<view class="grid-item-box">
-								<view :class="item.other" :style="item.value"> </view>
-								<text class="text">{{ item.title }}</text>
-							</view>
-						</uni-grid-item>
-					</uni-grid>
+				<uni-grid :column="4" :highlight="true" @change="change">
+				<uni-grid-item v-for="(item, index) in list" :index="index" :key="index">
+					<view class="grid-item-box" >
+						<uni-icons type="image" :size="30" color="#777" />
+						<text class="text">{{item.title}}</text>
+					</view>
+				</uni-grid-item>
+				</uni-grid>
 				</swiper-item>
 	
 		
@@ -74,33 +74,12 @@ const	getMore=function() {
 							});
 			}
 </script>
-
 <style lang="scss">
-	.uni-list-item {
-		border-bottom-style: solid;
-		border-bottom-width: 1px;
-		border-bottom-color: #eee;
-		font-size: 14px;
+	.image {
+		width: 25px;
+		height: 25px;
 	}
 
-	.uni-list-item__container {
-		/* #ifndef APP-NVUE */
-		display: flex;
-		width: 100%;
-		box-sizing: border-box;
-		/* #endif */
-		// padding: 12px 15px;
-		flex: 1;
-		position: relative;
-		flex-direction: row;
-		justify-content: space-between;
-		align-items: center;
-	}
-
-	.uni-list-item__content-title {
-		font-size: 14px;
-		color: #666;
-	}
 	.text {
 		font-size: 14px;
 		margin-top: 5px;
@@ -113,7 +92,7 @@ const	getMore=function() {
 	}
 
 	.grid-dynamic-box {
-		margin-bottom: 5px;
+		margin-bottom: 15px;
 	}
 
 	.grid-item-box {
@@ -125,7 +104,7 @@ const	getMore=function() {
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		padding: 5px 0;
+		padding: 15px 0;
 	}
 
 	.grid-item-box-row {
@@ -137,7 +116,7 @@ const	getMore=function() {
 		flex-direction: row;
 		align-items: center;
 		justify-content: center;
-		padding: 5px 0;
+		padding: 15px 0;
 	}
 
 	.grid-dot {
@@ -147,7 +126,7 @@ const	getMore=function() {
 	}
 
 	.swiper {
-		height: 300px;
+		height: 200px;
 	}
 
 	/* #ifdef H5 */

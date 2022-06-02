@@ -4,15 +4,17 @@ var utils_http = require("../../utils/http.js");
 if (!Array) {
   const _easycom_uni_notice_bar2 = common_vendor.resolveComponent("uni-notice-bar");
   const _component_uni_section = common_vendor.resolveComponent("uni-section");
+  const _easycom_uni_icons2 = common_vendor.resolveComponent("uni-icons");
   const _easycom_uni_grid_item2 = common_vendor.resolveComponent("uni-grid-item");
   const _easycom_uni_grid2 = common_vendor.resolveComponent("uni-grid");
-  (_easycom_uni_notice_bar2 + _component_uni_section + _easycom_uni_grid_item2 + _easycom_uni_grid2)();
+  (_easycom_uni_notice_bar2 + _component_uni_section + _easycom_uni_icons2 + _easycom_uni_grid_item2 + _easycom_uni_grid2)();
 }
 const _easycom_uni_notice_bar = () => "../../uni_modules/uni-notice-bar/components/uni-notice-bar/uni-notice-bar.js";
+const _easycom_uni_icons = () => "../../uni_modules/uni-icons/components/uni-icons/uni-icons.js";
 const _easycom_uni_grid_item = () => "../../uni_modules/uni-grid/components/uni-grid-item/uni-grid-item.js";
 const _easycom_uni_grid = () => "../../uni_modules/uni-grid/components/uni-grid/uni-grid.js";
 if (!Math) {
-  (_easycom_uni_notice_bar + _easycom_uni_grid_item + _easycom_uni_grid)();
+  (_easycom_uni_notice_bar + _easycom_uni_icons + _easycom_uni_grid_item + _easycom_uni_grid)();
 }
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   setup(__props) {
@@ -56,22 +58,26 @@ const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
         }),
         c: common_vendor.f(list.value, (item, index, i0) => {
           return {
-            a: common_vendor.n(item.other),
-            b: common_vendor.s(item.value),
-            c: common_vendor.t(item.title),
-            d: index,
-            e: "8ae7f758-5-" + i0 + ",8ae7f758-4",
-            f: common_vendor.p({
+            a: "8ae7f758-6-" + i0 + "," + ("8ae7f758-5-" + i0),
+            b: common_vendor.t(item.title),
+            c: index,
+            d: "8ae7f758-5-" + i0 + ",8ae7f758-4",
+            e: common_vendor.p({
               index
             })
           };
         }),
-        d: common_vendor.o(change),
-        e: common_vendor.p({
-          column: 3,
+        d: common_vendor.p({
+          type: "image",
+          size: 30,
+          color: "#777"
+        }),
+        e: common_vendor.o(change),
+        f: common_vendor.p({
+          column: 4,
           highlight: true
         }),
-        f: common_vendor.p({
+        g: common_vendor.p({
           title: "\u6ED1\u52A8\u89C6\u56FE",
           type: "line",
           padding: true

@@ -1,16 +1,66 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	"pages": [ 
 		{
-			"path": "pages/index/index",
+			"path": "pages/tabBar/home",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		},	{
+			"path": "pages/tabBar/personal",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		},{
+			"path": "pages/tabBar/work",
+			"style": {
+				"navigationBarTitleText": "应用中心"
+			}
+		},
+	
+		{
+			"path": "pages/workrun/index",
 			"style": {
 				"navigationBarTitleText": "学点博客"
 			}
+		},
+	
+		{
+			"path": "pages/oa/waitlist",
+			"style": {
+				"navigationBarTitleText": "待办事项"
+			}
 		}
-	],
+	],	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#007AFF",
+		"borderStyle": "black",
+		"backgroundColor": "#F8F8F8",
+		"list": [
+			{
+				"pagePath": "pages/tabBar/home",
+				"iconPath": "static/images/ico_19_s.png",
+				"selectedIconPath": "static/images/ico_19.png",
+				"text": "首页"
+			}
+			,{
+				"pagePath": "pages/tabBar/work",
+				"iconPath": "static/images/ico_20_s.png",
+				"selectedIconPath": "static/images/ico_20.png",
+				"text": "应用中心"
+			}
+			,{
+				"pagePath": "pages/oa/waitlist",
+				"iconPath": "static/images/ico_20_s.png",
+				"selectedIconPath": "static/images/ico_20.png",
+				"text": "我的"
+			}	
+			
+		]
+	},
 	"globalStyle": {
 		"backgroundTextStyle": "light",
 		"navigationBarBackgroundColor": "#2db7f5",
-		"navigationBarTitleText": "一本正经",
+		"navigationBarTitleText": "学点博客",
 		"navigationBarTextStyle": "white",
 		"mp-360": {
 			"navigationStyle": "custom"

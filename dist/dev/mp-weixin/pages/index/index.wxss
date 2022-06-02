@@ -5,32 +5,16 @@
  以下变量是默认值，如不需要修改可以不用给下面的变量重新赋值
  */
 /* 水平间距 */
-.uni-list-item {
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
-  border-bottom-color: #eee;
-  font-size: 14px;
-}
-.uni-list-item__container {
-  display: flex;
-  width: 100%;
-  box-sizing: border-box;
-  flex: 1;
-  position: relative;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-.uni-list-item__content-title {
-  font-size: 14px;
-  color: #666;
+.image {
+  width: 25px;
+  height: 25px;
 }
 .text {
   font-size: 14px;
   margin-top: 5px;
 }
 .grid-dynamic-box {
-  margin-bottom: 5px;
+  margin-bottom: 15px;
 }
 .grid-item-box {
   flex: 1;
@@ -38,7 +22,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 5px 0;
+  padding: 15px 0;
 }
 .grid-item-box-row {
   flex: 1;
@@ -46,7 +30,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 5px 0;
+  padding: 15px 0;
 }
 .grid-dot {
   position: absolute;
@@ -54,5 +38,5 @@
   right: 15px;
 }
 .swiper {
-  height: 300px;
+  height: 200px;
 }
