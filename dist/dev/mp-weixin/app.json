@@ -4,7 +4,8 @@
     "pages/tabBar/personal",
     "pages/tabBar/work",
     "pages/workrun/index",
-    "pages/oa/waitlist"
+    "pages/oa/waitlist",
+    "pages/login/login"
   ],
   "window": {
     "backgroundTextStyle": "light",

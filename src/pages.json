@@ -30,7 +30,17 @@
 				"navigationBarTitleText": "待办事项"
 			}
 		}
-	],	"tabBar": {
+	    ,{
+            "path" : "pages/login/login",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false,
+				"navigationStyle": "custom"  
+            }
+            
+        }
+    ],	"tabBar": {
 		"color": "#7A7E83",
 		"selectedColor": "#007AFF",
 		"borderStyle": "black",

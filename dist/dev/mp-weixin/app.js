@@ -7,6 +7,7 @@ if (!Math) {
   "./pages/tabBar/work.js";
   "./pages/workrun/index.js";
   "./pages/oa/waitlist.js";
+  "./pages/login/login.js";
 }
 const _sfc_main = /* @__PURE__ */ common_vendor.defineComponent({
   setup(__props) {
