@@ -3,7 +3,11 @@
 		{
 			"path": "pages/home/home",
 			"style": {
-				"navigationBarTitleText": "首页"
+				"navigationBarTitleText": "首页",
+					// #ifndef APP-PLUS
+					"enablePullDownRefresh": true,
+					// #endif
+					"navigationStyle": "custom"
 			}
 		},	{
 			"path": "pages/home/personal",
@@ -13,7 +17,8 @@
 		},{
 			"path": "pages/home/work",
 			"style": {
-				"navigationBarTitleText": "应用中心"
+				"navigationBarTitleText": "应用中心",
+				
 			}
 		},
 	
@@ -28,6 +33,7 @@
 			"path": "pages/oa/waitlist",
 			"style": {
 				"navigationBarTitleText": "待办事项"
+			
 			}
 		}
 	    ,{

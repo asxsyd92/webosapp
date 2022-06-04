@@ -1,26 +1,26 @@
 <template>
-<view  ref="subform">
+  <view ref="subform">
 
-  <itemnput   v-if="data.type=='input'" :data="data" :value="value"></itemnput>
+    <itemnput v-if="data.type == 'input'" :data="data" :value="value"></itemnput>
 
-</view>
+  </view>
 
- </template>
+</template>
 
 <script lang="ts" >
-import { ref   } from "vue";
+import { ref } from "vue";
 import itemnput from './item/itemnput.vue';
 export default {
-   
-    components:{ itemnput},
-  name:"subform",
-   props: {
+
+  components: { itemnput },
+  name: "subform",
+  props: {
     data: {
       type: Object,
       required: true
     },
-        value:{
-         type:Object
+    value: {
+      type: Object
     }
   },
 

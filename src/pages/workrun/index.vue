@@ -1,5 +1,17 @@
 <template>
 <view class="container">
+	<!-- #ifndef H5 -->
+	<statusBar></statusBar>
+	<!-- #endif -->
+	
+	<!-- 搜索功能 -->
+	<view class="uni-search-box">
+		<uni-search-bar v-model="keyword" ref="searchBar" radius="100" cancelButton="none" disabled
+			:placeholder="inputPlaceholder" />
+		<view class="cover-search-bar" @click="searchClick"></view>
+	</view>
+	
+	
 		<uni-section title="基本用法" type="line">
 			<view class="example">
 	<uni-title type="h2" v-if="fromdata.length>0" :title="fromdata.from.data.name" align="center"></uni-title>
