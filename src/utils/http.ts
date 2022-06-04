@@ -1,4 +1,5 @@
 
+import config from "@/config.ts"
 class Http {
 
   /* GET 方法 */
@@ -36,7 +37,7 @@ class Http {
       var token = uni.getStorageSync('token');
       console.log(token);
       uni.request({
-        url: url, //仅为示例，并非真实接口地址。
+        url:config.host+ url, //仅为示例，并非真实接口地址。
         data: params,
         method: 'POST',
         header: headers == undefined ? {
@@ -47,7 +48,7 @@ class Http {
 
           uni.hideLoading();
           if (res.statusCode == 401) {
-            uni.clearStorageSync();
+             uni.setStorageSync("islogin", false);
             uni.reLaunch({ url: '/pages/login/login' });
           }
           resolve(res.data);

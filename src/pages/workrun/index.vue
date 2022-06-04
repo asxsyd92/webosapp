@@ -99,7 +99,7 @@ const buttonGroup=ref( [
       
         if (isflow) {
           //初始化流程在初始化表单
-		   	http.post("https://asxsyd92.com" + "/api/workflowtasks/FlowInit",{flowid: query.flowid, stepid: query.stepid, instanceid: query.instanceid},"正在初始化流程").then((res:any) => {
+		   	http.post( "/api/workflowtasks/FlowInit",{flowid: query.flowid, stepid: query.stepid, instanceid: query.instanceid},"正在初始化流程").then((res:any) => {
            if (res.success) {
               console.log(res);
               currentdata.value = res.currentdata;
@@ -150,12 +150,12 @@ const buttonGroup=ref( [
 
 		  ///获取表单
     const   getform=()=> {
-   	http.post("https://asxsyd92.com" + "/api/form/getFormJson",{key: query.value.formid},"请稍等").then((res:any) => {
+   	http.post( "/api/form/getFormJson",{key: query.value.formid},"请稍等").then((res:any) => {
            
        // m.$post(m.host + "/api/form/getFormJson", { key: m.query.formid }, "请稍等").then(res => {
           if (res.success) {
             var k = JSON.parse(res.data.designhtml);
-			debugger
+
             fromdata.value = k;
             bindfield();
             if (query.value.instanceid != null && query.value.instanceid != undefined && query.value.instanceid != "") {
@@ -191,7 +191,7 @@ const buttonGroup=ref( [
       }
 
 const  getcomment=()=> {
-  	http.post("https://asxsyd92.com" + "/api/workflowtasks/getcomment",{query: JSON.stringify(query.value) },"请稍等").then((res:any) => {
+  	http.post("/api/workflowtasks/getcomment",{query: JSON.stringify(query.value) },"请稍等").then((res:any) => {
        // m.$post(m.host + "/api/workflowtasks/getcomment", { query: JSON.stringify(m.query) }, "请稍等...").then(res => {
           if (res.success) {
             commentlist.value = res.data;

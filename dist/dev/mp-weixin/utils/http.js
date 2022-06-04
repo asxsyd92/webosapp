@@ -1,5 +1,6 @@
 "use strict";
 var common_vendor = require("../common/vendor.js");
+var config = require("../config.js");
 class Http {
   get(url, params, _object = {}) {
     return new Promise((resolve, reject) => {
@@ -31,7 +32,7 @@ class Http {
       var token = common_vendor.index.getStorageSync("token");
       console.log(token);
       common_vendor.index.request({
-        url,
+        url: config.config.host + url,
         data: params,
         method: "POST",
         header: headers == void 0 ? {
@@ -41,7 +42,7 @@ class Http {
         success: (res) => {
           common_vendor.index.hideLoading();
           if (res.statusCode == 401) {
-            common_vendor.index.clearStorageSync();
+            common_vendor.index.setStorageSync("islogin", false);
             common_vendor.index.reLaunch({ url: "/pages/login/login" });
           }
           resolve(res.data);

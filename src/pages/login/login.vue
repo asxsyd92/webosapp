@@ -3,26 +3,29 @@
 	<view>
 
 		<!-- #ifdef MP-WEIXIN || MP-QQ -->
-		<view>
-			<view v-if="isCanUse">
-				<view>
-					<view class='header'>
-						<!-- <img src="/static/images/ic_launcher.png"> -->
-					</view>
-					<view class='content'>
-						<view>申请获取以下权限</view>
-						<text>获得你的公开信息(昵称，头像、地区等)</text>
-					</view>
+	<view  style="   position: absolute; top: 25%;    width: 100%;">
+	   <view v-if="canIUse||canIGetUserProfile">
+      <view class='content'>
+        <image style="width: 140rpx; height: 140rpx;" mode="aspectFit" src="@/static/images/ic_launcher.png"></image>
+        <view class="name">登录</view>
+        <view>申请获取以下权限</view>
+        <text>获得你的公开信息(昵称、头像、地区等)</text>
+      </view>
 
-					<button class='bottom' type='primary' open-type="getUserInfo" withCredentials="true" lang="zh_CN"
-						@getuserinfo="wxGetUserInfo">
-						授权登录
-					</button>
+      <view class="login-box">
+        <!--新版登录方式-->
+        <button v-if="canIGetUserProfile" class='login-btn' type='primary' @click="bindGetUserInfo"> 授权登录 </button>
+        <!--旧版登录方式-->
+        <button v-else class='login-btn' type='primary' open-type="getUserInfo" withCredentials="true" lang="zh_CN" @getuserinfo="bindGetUserInfo"> 授权登录 </button>
 
+      </view>
+    </view>
+    <view v-else class="text-center">
+      请升级微信版本
+    </view>
 
-				</view>
-			</view>
-		</view>
+		
+   </view>
 
 		<!-- #endif  -->
 		<!-- #ifdef H5 || APP -->
@@ -36,31 +39,29 @@
 							<span class="login100-form-title"
 								style="padding-bottom: 10px; font-size: 14px;">移动办公系统</span>
 
-							<view class="wrap-input100 validate-input m-b-23" data-validate="请输入用户名">
+							<view class="wrap-input100 validate-input m-b-23" >
 								<span class="label-input100">用户名</span>
-								<input class="input100" type="text" name="username" id="username" placeholder="请输入用户名"
+								<input class="input100" type="text"  v-model="username" placeholder="请输入用户名"
 									autocomplete="off">
 								<span class="focus-input100" >
-								<i class="fa fa-user-o fa-1x"></i>
+								<uni-icons type="person" size="20"></uni-icons>
 								</span>
 							</view>
 
-							<view class="wrap-input100 validate-input" data-validate="请输入密码">
+							<view class="wrap-input100 validate-input" >
 								<span class="label-input100">密码</span>
-								<input class="input100" type="password" name="pass" id="pass" placeholder="请输入密码">
-								<span class="focus-input100" data-symbol="">
-										<i class="fa fa-key fa-1x"></i>
+								<input class="input100" type="password"  v-model="pw" placeholder="请输入密码">
+								<span class="focus-input100" >
+										<uni-icons type="locked" size="20"></uni-icons>
 								</span>
 							</view>
-
-							<view class="text-right p-t-8 p-b-31">
+	                       	<view class="text-right p-t-8 p-b-31">
 								<a href="javascript:"></a>
 							</view>
-
 							<view class="container-login100-form-btn">
 								<view class="wrap-login100-form-btn">
 									<view class="login100-form-bgbtn"></view>
-									<button class="login100-form-btn">登 录</button>
+									<button class="login100-form-btn" @click="validate" >登 录</button>
 								</view>
 							</view>
 							<view class="flex-col-c p-t-25">
@@ -75,8 +76,6 @@
 
 
 		</view>
-
-
 		<!-- #endif -->
 
 		<!-- 消息提示 -->
@@ -87,150 +86,209 @@
 
 	</view>
 </template>
-<script>
+<script lang="ts">
+  import { ref,getCurrentInstance} from 'vue';
+  import { onLoad } from "@dcloudio/uni-app";
+  import moment from 'moment';
+  import http from "../../utils/http";
+	//#ifdef  H5 || APP
+  import CryptoJS from "crypto-js";
+    //#endif
 	export default {
-		data() {
-			return {
-				type: 'top',
-				msgType: 'success',
-				message: '这是一条成功消息提示',
+	
+		  setup() {
+			    const   currentInstance=getCurrentInstance();
+			   //#ifdef  H5 || APP
+			     const username = ref("") as any;
+                 const pw = ref("") as any;
+				  const codeimg = ref("") as any;
+				//#endif
+		          const	type=ref('top');
+			      const	msgType= ref("error");
+			      const	message=ref("");
+				   const	openid=ref("");
+				    const	unionid=ref("");
+					 const	nickName=ref("");
+					  const	avatarUrl=ref("");
+					    const	session_key=ref("");
+				   const	canIUse=ref(uni.canIUse('button.open-type.getUserInfo'));
+                   const	canIGetUserProfile=ref(false);
 
-				title: '温馨提示',
-				SessionKey: '',
-				openid: '',
-				nickName: '',
-				avatarUrl: '',
-				unionid: '',
-				isCanUse: uni.getStorageSync('isCanUse1') || true //默认为true
-			};
-		},
-		methods: {
+	onLoad((event :any) => {
+		   //#ifdef   MP-WEIXIN || MP-QQ
+		 wxLogin();
+            if (uni.getUserProfile)
+			{
+               canIGetUserProfile.value = true
+              }
+		  });
+		    //#endif
+		  //#ifdef  H5 || APP
+	    const Encrypt = function (word:any) {
+        let key = "webos" + moment(new Date()).format("YYYYMMDD") + "591"; //十六位十六进制数作为密钥
+        var keys = CryptoJS.enc.Utf8.parse(key);
+        var srcs = CryptoJS.enc.Utf8.parse(word);
+        var encrypted = CryptoJS.AES.encrypt(srcs, keys, { mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.Pkcs7 });
+        return encrypted.toString();
+                     }
 
+	    const validate = function () {
+          if (username.value.length <= 0) {
+			message.value = '用户名不能为空！';
+		   currentInstance.refs.popupMessage.open();
+		
+    
+            return false;
+          }
+          if (pw.value.length <= 0) {
+		   message.value = '密码不能为空！';
+		   currentInstance.refs.popupMessage.open();
+			
+   
+            return false;
+          }
 
-			//第一授权获取用户信息===》按钮触发
-			wxGetUserInfo() {
-				var _this = this;
+          var user = Encrypt(username.value);
+          var password = Encrypt(pw.value);
 
-				uni.getUserInfo({
-					provider: 'qq',
-					success: function(infoRes) {
-						console.log(infoRes);
-						_this.nickName = infoRes.userInfo.nickName; //昵称
-						_this.avatarUrl = infoRes.userInfo.avatarUrl; //头像
-						try {
-							uni.setStorageSync('isCanUse1', false); //记录是否第一次授权  false:表示不是第一次授权
-							_this.updateUserInfo(_this);
-						} catch (e) {}
-					},
-					fail(res) {}
-				});
-			},
-			//登录
-			login() {
-				var _this = this;
-
-
-				// 1.wx获取登录用户code
-				uni.login({
-					provider: 'qq',
-					success: function(loginRes) {
-						console.log(loginRes);
-						let code = loginRes.code;
-
-
-						// #ifdef MP-QQ 
-						if (!_this.isCanUse) {
-							//非第一次授权获取用户信息
-							uni.getUserInfo({
-								provider: 'qq',
-								success: function(infoRes) { //获取用户信息后向调用信息更新方法
-									_this.nickName = infoRes.userInfo.nickName; //昵称
-									_this.avatarUrl = infoRes.userInfo.avatarUrl; //头像
-									_this.updateUserInfo(_this); //调用更新信息方法
-								}
-							});
-						}
-						// #endif
-						// #ifdef MP-WEIXIN 
-						if (!_this.isCanUse) {
-							//非第一次授权获取用户信息
-							wx.getUserProfile({
-								provider: 'wx',
-								success: function(infoRes) { //获取用户信息后向调用信息更新方法
-									_this.nickName = infoRes.userInfo.nickName; //昵称
-									_this.avatarUrl = infoRes.userInfo.avatarUrl; //头像
-									_this.updateUserInfo(_this); //调用更新信息方法
-								}
-							});
-						}
-						// #endif
-
-
-						//#ifdef MP-WEIXIN 
-						_this.$post(_this.host + "/api/applets/getUserWXLoginInfo", {
-							code: code
-						}).then(res => {
-							//  common.requst(_this.URLs + '/api/applets/getUserWXLoginInfo', data, 'get').then(res => {
-							console.log('返回数据', res);
-
-							if (res.success) {
-								_this.openid = res.data.openid;
-								_this.unionid = res.data.unionid;
-								uni.setStorageSync('openid', _this.openid);
-								console.log(_this);
-							}
-
-
-
+          http.post("/api/login/Login", { user: user, pw: password,mobile:"mobile" }, "正在登陆...").then((res:any) => {
+            console.log(res);
+            if (res.success) {
+             uni.setStorageSync("user", res.name);
+              uni.setStorageSync("userid", res.userid);
+             uni.setStorageSync("orname", res.orname);
+             uni.setStorageSync("orid", res.orid);
+              uni.setStorageSync("token", res.access_token);
+             uni.setStorageSync("tokenKey", res.userid);
+              uni.setStorageSync("account", res.account);
+            uni.setStorageSync("picture", res.picture);
+            uni.setStorageSync("islogin", true);
+    
+            uni.switchTab({ //信息更新成功后跳转到小程序首页
+							url: '/pages/home/home'
 						});
-						// #endif
-						// #ifdef MP-QQ 
-						//2.将用户登录code传递到后台置换用户SessionKey、OpenId等信息
-						_this.$post(_this.host + "/api/applets/qqlogin", {
-							code: code
-						}).then(res => {
-							//  common.requst(_this.URLs + '/api/applets/qqlogin', data, 'get').then(res => {
-							console.log('返回数据', res);
-							_this.openid = res.data.openid;
-							_this.unionid = res.data.unionid;
-							console.log(_this);
+            } else {
+            message.value = res.msg;
+		   currentInstance.refs.popupMessage.open();
+			  
+            }
 
-						});
+          }).catch(data => {
 
-						//#endif
-					},
-				});
-			},
-			onShareAppMessage: function() {
-				qq.showShareMenu({
-					showShareItems: ['qq', 'qzone', 'wechatFriends', 'wechatMoment']
-				})
-			},
-			//向后台更新信息
-			updateUserInfo(_this) {
-				var type = null;
-				// #ifdef MP-QQ 
+          })
+ 
+		   }  
+		   //#endif
+   //#ifdef   MP-WEIXIN || MP-QQ
+   const bindGetUserInfo= (e:any)=> {
+      console.log('e', e)
+
+      if (canIGetUserProfile.value) {
+        //新版登录方式
+        uni.getUserProfile({
+          desc: '获取您个人信息用于登录！',
+          success: (res) => {
+            console.log('用户信息', res)
+            // 存入个人信息
+            uni.setStorageSync('userInfo_winxin', res.userInfo);
+			nickName.value=res.userInfo.nickName;
+			avatarUrl.value=res.userInfo.avatarUrl;
+		
+            updateUserInfo()
+          },
+          fail: (res) => {
+            console.log(res)
+          }
+        })
+      } else {
+        //旧版登录方式 --自动就拉起授权窗口
+        if (e.detail.userInfo) {
+          //用户按了允许授权按钮
+          //console.log('手动');
+          console.log('老版用户信息', e.detail.userInfo)
+          // 存入个人信息
+          uni.setStorageSync('userInfo_winxin', e.detail.userInfo);
+           nickName.value=e.detail.userInfo.nickName;
+			avatarUrl.value=e.detail.userInfo.avatarUrl;
+          updateUserInfo()
+        } else {
+          console.log('用户拒绝了授权')
+          //用户按了拒绝按钮
+        }
+      }
+    }
+    //登录---目的拿到code
+    const wxLogin =()=> {
+		//获取token自动登录
+ if( uni.getStorageSync('islogin')!=""&& uni.getStorageSync('islogin')!=true){
+	 http.post("/api/login/RefreshToken",{"code":uni.getStorageSync("access_token")},"正在登录").then((res:any) => {
+		 uni.setStorageSync("islogin", true);
+		     uni.switchTab({ //信息更新成功后跳转到小程序首页
+		 	url: '/pages/home/home'
+		 });
+	 })
+ }else{
+      // 获取登录用户code
+      uni.login({
+        provider: 'weixin',
+        success: function (res) {
+          //console.log(res);
+          if (res.code) {
+            //将用户登录code传递到后台置换用户SessionKey、OpenId等信息 可参照此篇文章： https://ask.dcloud.net.cn/article/37452
+            // 1.拿code调后端接口1 也就是getOpenid() 换取到SessionKey、OpenId(这个是唯一且固定不变)
+            // 2.拿openId 调后端自己写的登录接口2  获取到cookie等信息 （这个cookie后期请求放在请求头上的） 登陆成功进行存储和跳转页面
+
+            //这是我们的后端接口1--换取到SessionKey、OpenId
+            // let params = { code: res.code}
+            // getOpenid(params, false).then((res) => {
+            //   console.log('拿code调后端接口1 换取到SessionKey、OpenId', res)
+            //   uni.setStorageSync('session_key', res.data.session_key)
+            //   uni.setStorageSync('openid', res.data.openid)
+            // })
+
+				http.post("/api/applets/getUserWXLoginInfo",{"code":res.code},"请稍等").then((res:any) => {
+			
+								console.log(res);
+								if (res.success) {
+									openid.value=res.data.openid;
+									session_key.value=res.data.session_key;
+									  //uni.setStorageSync('openid', res.data.openid)
+								}
+							}).catch((resp:any) => {
+							});
+	
+          } else {
+            uni.showToast({ title: '获取logon_code失败', duration: 2000 })
+            console.log('获取logon_code失败' + res.errMsg)
+            wxLogin()
+          }
+        },
+        fail: (res) => {
+          uni.showToast({ title: '获取logon_code失败', duration: 2000 })
+          console.log('获取logon_code失败' + res.errMsg)
+          wxLogin()
+        }});
+      }
+	}
+    //向后台更新信息
+   const updateUserInfo= ()=> {
+		let type = "";
+				//#ifdef MP-QQ 
 				type = "qq";
 				//#endif 
-
 				//#ifdef MP-WEIXIN  
 				type = "wx";
 				//#endif   
-
-
-				_this.$post(_this.host + "/api/applets/updateUserInfo", {
-					openid: _this.openid,
-					unionid: _this.unionid,
-					nickName: _this.nickName,
-					headUrl: _this.avatarUrl,
-					type: type
-				}).then(res => {
+ 	http.post("/api/applets/updateUserInfo",{	openid: openid.value,
+					unionid: unionid.value,
+					nickName: nickName.value,
+					headUrl: avatarUrl.value,
+					type: type},"请稍等").then((res:any) => {
+		
 					if (res.success == true) {
-						console.log(res);
-						_this.type = "top"
 
-						_this.message = '登陆失败，请稍后再试！';
-						_this.$refs.popupMessage.open();
+						message .value= '登陆失败，请稍后再试！';
+						currentInstance.refs.popupMessage.open();
 						uni.setStorageSync('userid', res.data.id);
 						// #ifdef MP-QQ 
 						uni.setStorageSync('openid', res.data.qqopenid);
@@ -244,45 +302,49 @@
 						uni.setStorageSync("avatar", res.data.avatar);
 						uni.setStorageSync("userno", res.data.userno);
 						uni.setStorageSync("token", res.token);
-
-						uni.switchTab({ //信息更新成功后跳转到小程序首页
-							url: '/pages/tabBar/home'
+	                     uni.setStorageSync("islogin", true);
+					        uni.switchTab({ //信息更新成功后跳转到小程序首页
+							url: '/pages/home/home'
 						});
 					} else {
-						_this.type = "top"
+					
 
-						_this.message = '登陆失败，请稍后再试！';
-						_this.$refs.popupMessage.open();
+						message.value = '登陆失败，请稍后再试！';
+						currentInstance.refs.popupMessage.open();
 
 					}
 
 
 
 				});
+   }
+  
 
-			}
-		},
-		onLoad() { //默认加载
-			try {
-				var users = uni.getStorageSync("openid");
-				var usersid = uni.getStorageSync("userid");
-				if (users != null && users != "" && usersid != null && usersid != "") {
-					uni.switchTab({ //信息更新成功后跳转到小程序首页
-						url: '/pages/tabBar/home'
-					});
-					return false;
-				}
-				this.login();
-			} catch (e) {
+   
+	   //#endif
+	
+			
+	  return {
+		 //#ifdef  H5 || APP
+		codeimg,
+		username,
+		pw,
+		validate,
+		 //#endif
+		message,
+		msgType,
+		canIGetUserProfile,
+		canIUse,
+		bindGetUserInfo
+	
+	  }
+		  }
 
-			}
-
-
-
-		}
-	}
+		 }
+	
 </script>
 <style>
+
 	.header {
 
 		border-bottom: 1px solid #ccc;
@@ -300,11 +362,13 @@
 	}
 
 	.content {
-		margin-left: 50rpx;
-		margin-bottom: 90rpx;
+		text-align: center;
+
+    
 	}
 
 	.content text {
+	
 		display: block;
 		color: #9d9d9d;
 		margin-top: 40rpx;

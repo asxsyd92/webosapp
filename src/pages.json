@@ -1,17 +1,17 @@
 {
 	"pages": [ 
 		{
-			"path": "pages/tabBar/home",
+			"path": "pages/home/home",
 			"style": {
 				"navigationBarTitleText": "首页"
 			}
 		},	{
-			"path": "pages/tabBar/personal",
+			"path": "pages/home/personal",
 			"style": {
 				"navigationBarTitleText": "我的"
 			}
 		},{
-			"path": "pages/tabBar/work",
+			"path": "pages/home/work",
 			"style": {
 				"navigationBarTitleText": "应用中心"
 			}
@@ -47,13 +47,13 @@
 		"backgroundColor": "#F8F8F8",
 		"list": [
 			{
-				"pagePath": "pages/tabBar/home",
+				"pagePath": "pages/home/home",
 				"iconPath": "static/images/ico_19_s.png",
 				"selectedIconPath": "static/images/ico_19.png",
 				"text": "首页"
 			}
 			,{
-				"pagePath": "pages/tabBar/work",
+				"pagePath": "pages/home/work",
 				"iconPath": "static/images/ico_20_s.png",
 				"selectedIconPath": "static/images/ico_20.png",
 				"text": "应用中心"

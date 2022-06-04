@@ -63,8 +63,8 @@ const	getMore=function() {
 			}
 			
 			const init=function(){
-				console.log("开始请求");
-			http.post("https://asxsyd92.com" + "/api/applets/GetBycode",{"code":"asxsydboke"},"请稍等").then((res:any) => {
+		
+			http.post("/api/applets/GetBycode",{"code":"asxsydboke"},"请稍等").then((res:any) => {
 							
 								console.log(res);
 								if (res.success) {
