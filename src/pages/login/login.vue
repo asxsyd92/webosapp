@@ -123,8 +123,9 @@ export default {
 			if (uni.getUserProfile) {
 				canIGetUserProfile.value = true
 			}
+			//#endif
 		});
-		//#endif
+	
 		//#ifdef  H5 || APP
 		const Encrypt = function (word: any) {
 			let key = "webos" + moment(new Date()).format("YYYYMMDD") + "591"; //十六位十六进制数作为密钥
@@ -340,7 +341,9 @@ export default {
 			msgType,
 			canIGetUserProfile,
 			canIUse,
+			//#ifdef   MP-WEIXIN || MP-QQ
 			bindGetUserInfo
+			//#endif
 
 		}
 	}
