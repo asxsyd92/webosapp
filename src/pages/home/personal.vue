@@ -7,6 +7,32 @@
 		<button type="primary" @tap="selectParent = !selectParent">切换父级可选：{{selectParent?'可选':'不可选'}}</button> -->
 		<qian-tree ref="qiantree" lazy :selectParent="selectParent" :multiple="multiple" :range="list" :foldAll="flod"
 			idKey="id" rangeKey="title" @confirm="treeConfirm" @cancel="treeCancel"></qian-tree>
+	
+	
+	
+	<view class="remind">
+	  <view class="remind-item">
+	    <text class="my-ri-notification-3-fill text-xxl text-green"></text>
+	    <text class="remind-item-title">我的待办</text>
+	    <view class="cu-tag badge" v-show="countInfo.order.wait > 0">{{ countInfo.order.wait }}</view>
+	  </view>
+	  <view class="remind-item">
+	    <text class="my-ri-survey-fill text-xxl text-green"></text>
+	    <text class="remind-item-title">我的订单</text>
+	  </view>
+	  <view class="remind-item" >
+	    <text class="my-ri-coupon-3-fill text-xxl text-green"></text>
+	    <text class="remind-item-title">我的卡券</text>
+	  </view>
+	  <!-- <view class="remind-item" @click="navigateTo('/pages/my/invoice/invoice')">
+	    <text class="my-ri-bill-fill text-xxl text-green"></text>
+	    <text class="remind-item-title">平台发票</text>
+	  </view> -->
+	  <view class="remind-item" >
+	    <text class="my-ri-draft-fill text-xxl text-green"></text>
+	    <text class="remind-item-title">我的合同</text>
+	  </view>
+	</view>
 	</view>
 </template>
 
@@ -63,4 +89,28 @@ export default {
 </script>
 
 <style>
+	
+	.remind {
+	  margin: 32rpx 32rpx 0;
+	  display: flex;
+	  justify-content: space-between;
+	  background-color: #ffffff;
+	  padding: 32rpx;
+	  border-radius: 12rpx;
+	}
+	
+	.remind-item {
+	  position: relative;
+	  display: flex;
+	  flex-direction: column;
+	  align-items: center;
+	}
+	
+	.remind-item-title {
+	  margin-top: 16rpx;
+	  font-size: 24rpx;
+	  line-height: 24rpx;
+	  color: #444444;
+	}
+	
 </style>

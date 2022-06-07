@@ -222,8 +222,8 @@ export default {
 		}
 		//登录---目的拿到code
 		const wxLogin = () => {
-			//获取token自动登录
-			if (uni.getStorageSync('islogin') != "" && uni.getStorageSync('islogin') != true) {
+			if (uni.getStorageSync('islogin') ==false) {
+				
 				http.post("/api/login/RefreshToken", { "code": uni.getStorageSync("access_token") }, "正在登录").then((res: any) => {
 					uni.setStorageSync("islogin", true);
 					uni.switchTab({ //信息更新成功后跳转到小程序首页
@@ -10123,11 +10123,7 @@ img {
 	bottom: 0px;
 }
 
-* {
-	margin: 0px;
-	padding: 0px;
-	box-sizing: border-box;
-}
+
 
 body,
 html {
@@ -10156,14 +10152,7 @@ a:hover {
 	color: #a64bf4;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	margin: 0px;
-}
+
 
 p {
 	font-family: 'Microsoft Yahei';
@@ -10268,9 +10257,6 @@ button:hover {
 	cursor: pointer;
 }
 
-iframe {
-	border: none !important;
-}
 
 .txt1 {
 	font-family: 'Microsoft Yahei';
@@ -10476,7 +10462,7 @@ iframe {
 	-ms-transform: translateY(50%);
 	-o-transform: translateY(50%);
 	transform: translateY(50%);
-	right: 2px;
+	toleft: 2px;
 	pointer-events: none;
 	font-family: 'Microsoft Yahei';
 	color: #c80000;

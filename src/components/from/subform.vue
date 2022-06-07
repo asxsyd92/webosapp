@@ -1,7 +1,7 @@
 <template>
   <view ref="subform">
 
-    <itemnput v-if="data.type == 'input'" :data="data" :value="value"></itemnput>
+    <itemnput v-if="data.type == 'input'||data.type=='textarea'" :data="data" :value="value"></itemnput>
 
   </view>
 
@@ -27,3 +27,7 @@ export default {
 
 }
 </script> 
+<style lang="sass">
+
+</style>
+
