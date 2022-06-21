@@ -88,8 +88,7 @@ export default {
 }
 </script>
 
-<style>
-	
+<style lang="scss">
 	.remind {
 	  margin: 32rpx 32rpx 0;
 	  display: flex;

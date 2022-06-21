@@ -10,7 +10,9 @@
 				:placeholder="inputPlaceholder" />
 			<view class="cover-search-bar" @click="searchClick"></view>
 		</view>
+		<scroll-view scroll-x enable-flex class="bg-white nav fixed flex justify-between">
 
+	
 		<view>
 			<view>
 				<view class="article shadow clearfix sr-listshow" v-for="(value, index) in waitlist" :key="index">
@@ -55,7 +57,7 @@
 			</view>
 
 		</view>
-
+	</scroll-view>
 	</view>
 </template>
 

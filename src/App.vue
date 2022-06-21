@@ -15,4 +15,7 @@ onHide(() => {
   @import './assets/css/site.css'; 
   @import './assets/css/articledetail.css'; 
   @import './assets/css/wangEditor.css';  
+  .setheight{
+  height: 150px;
+}
 </style>

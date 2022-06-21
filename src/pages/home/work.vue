@@ -283,7 +283,7 @@
 	}
 </script>
 
-<style scoped>
+<style lang="scss">
 	/* #ifndef APP-NVUE */
 	view {
 		display: flex;

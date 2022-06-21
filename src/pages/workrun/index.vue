@@ -4,47 +4,52 @@
     <statusBar></statusBar>
     <!-- #endif -->
 
-    <!-- 搜索功能 -->
-    <view class="uni-search-box">
-      <uni-search-bar v-model="keyword" ref="searchBar" radius="100" cancelButton="none" disabled
-        :placeholder="inputPlaceholder" />
-      <view class="cover-search-bar" @click="searchClick"></view>
-    </view>
-
-
     <uni-section title="基本用法" type="line">
       <view class="example">
-        <uni-title type="h2" v-if="fromdata.length > 0" :title="fromdata.from.data.name" align="center"></uni-title>
-        <view style="text-align:center;width:100%;margin:5px">
-          <text class="uni-h6" v-if="fromdata != null">当前步骤： {{ currentdata.name }}</text>
-        </view>
-        <uni-forms ref="form" :modelValue="field">
-
+ 
+        <uni-forms ref="form" :modelValue="fromdata.field" :rules="rules" label-position="top">
           <view v-for="(item, index) in fromdata.data" :key="index">
-
-            <subform :data="item" :value="field"></subform>
-
+            <subform :data="item" :value="fromdata.field"></subform>
           </view>
         </uni-forms>
+           <!--     <uni-title
+          type="h2"
+          v-if="fromdata.length > 0"
+          :title="fromdata.from.data.name"
+          align="center"
+        ></uni-title>
+        <view style="text-align: center; width: 100%; margin: 5px">
+          <text class="uni-h6" v-if="fromdata != null"
+            >当前步骤： {{ currentdata.name }}</text
+          >
+        </view> -->
+        	<uni-steps :options="[{title: currentdata.name}]" active="0" />
+        <view class="setheight"></view>
       </view>
     </uni-section>
-
     <!-- 消息提示 -->
     <uni-popup id="popupMessage" ref="popupMessage" type="message">
-      <uni-popup-message :type="msgType" :message="message" :duration="2000"></uni-popup-message>
+      <uni-popup-message
+        :type="msgType"
+        :message="message"
+        :duration="2000"
+      ></uni-popup-message>
     </uni-popup>
     <view class="goods-carts">
-      <uni-goods-nav :options="sendoptions" :fill="true" :button-group="buttonGroup" @click="submit"
-        @buttonClick="submit" />
+      <uni-goods-nav
+        :options="sendoptions"
+        :fill="true"
+        :button-group="buttonGroup"
+        @click="submit"
+        @buttonClick="submit"
+      />
     </view>
   </view>
-
-
 </template>
 
 <script lang="ts">
-import subform from '@/components/from/subform.vue';
-import http from '../../utils/http';
+import subform from "@/components/from/subform.vue";
+import http from "../../utils/http";
 import { ref, getCurrentInstance } from "vue";
 import { onLoad } from "@dcloudio/uni-app";
 export default {
@@ -62,24 +67,28 @@ export default {
     const nextstep = ref([]);
     const commentlist = ref([]);
     const field = ref([]) as any;
-    const sendoptions = [{
-      icon: 'loop',
-      text: '刷新'
-    }, {
-      icon: 'undo',
-      text: '撤回',
+    const rules = ref({});
+    const sendoptions = [
+      {
+        icon: "loop",
+        text: "刷新",
+      },
+      {
+        icon: "undo",
+        text: "撤回",
 
-      infoBackgroundColor: '#007aff',
-      infoColor: "#f5f5f5"
-    }, {
-      icon: 'closeempty',
-      text: '终止',
-
-    }, {
-      icon: 'plus-filled',
-      text: '保存',
-
-    }];
+        infoBackgroundColor: "#007aff",
+        infoColor: "#f5f5f5",
+      },
+      {
+        icon: "closeempty",
+        text: "终止",
+      },
+      {
+        icon: "plus-filled",
+        text: "保存",
+      },
+    ];
     const buttonGroup = ref([
       // {
       // 					text: '退回',
@@ -87,10 +96,10 @@ export default {
       // 					color: '#fff'
       // 				},
       {
-        text: '发送',
-        backgroundColor: 'linear-gradient(90deg, #1E83FF, #0053B8)',
-        color: '#fff'
-      }
+        text: "发送",
+        backgroundColor: "linear-gradient(90deg, #1E83FF, #0053B8)",
+        color: "#fff",
+      },
     ]);
     onLoad((event: any) => {
       console.log(event);
@@ -101,139 +110,151 @@ export default {
       query.groupid = event.groupid;
       if (query.flowid != null && query.flowid != undefined && query.flowid != "") {
         isflow.value = true;
-
       } else {
         query.formid = event.formid;
       }
       init();
     });
     const init = () => {
-
       if (isflow) {
         //初始化流程在初始化表单
-        http.post("/api/workflowtasks/FlowInit", { flowid: query.flowid, stepid: query.stepid, instanceid: query.instanceid }, "正在初始化流程").then((res: any) => {
-          if (res.success) {
-            console.log(res);
-            currentdata.value = res.currentdata;
-            if (currentdata.value.signatureType == 0 || currentdata.value.signatureType == "0") {
-              signature.value = true;
+        http
+          .post(
+            "/api/workflowtasks/FlowInit",
+            { flowid: query.flowid, stepid: query.stepid, instanceid: query.instanceid },
+            "正在初始化流程"
+          )
+          .then((res: any) => {
+            if (res.success) {
+              console.log(res);
+              currentdata.value = res.currentdata;
+              if (
+                currentdata.value.signatureType == 0 ||
+                currentdata.value.signatureType == "0"
+              ) {
+                signature.value = true;
+              }
+              var k = JSON.parse(res.formdata.designhtml);
+              fromdata.value = k;
+              nextstep.value = res.data;
+              field.value = k.field;
+              
+              console.log(field.value);
+              rules.value = k.rules;
+                  console.log(rules.value);
+              console.log(fromdata.value);
+              if (res.data.length > 0) {
+                res.data.forEach((item: any) => {
+                  let o = new Object() as any;
+                  o.text = item.name;
+                  o.value = item.id;
+                  step.value.push(o);
+                });
+              }
+
+              console.log(step.value);
+          
+              if (
+                isflow &&
+                query.instanceid != null &&
+                query.instanceid != undefined &&
+                query.instanceid != ""
+              ) {
+                getcomment();
+              }
+
+              msgType.value = "top";
+              message.value = res.msg;
+              currentInstance.refs.popupMessage.open();
+
+              console.log("初始化成功");
+            } else {
+              msgType.value = "top";
+              message.value = res.msg;
+              currentInstance.refs.popupMessage.open();
             }
-            var k = JSON.parse(res.formdata.designhtml);
-            fromdata.value = k;
-            nextstep.value = res.data;
-            console.log(fromdata.value);
-            if (res.data.length > 0) {
-              res.data.forEach((item: any) => {
-                let o = new Object() as any;
-                o.text = item.name;
-                o.value = item.id;
-                step.value.push(o);
-              });
-            }
-
-            console.log(step.value);
-            bindfield();
-            if (isflow && query.instanceid != null && query.instanceid != undefined && query.instanceid != "") {
-              getcomment();
-            }
-
-
-
-            msgType.value = "top";
-            message.value = res.msg;
-            currentInstance.refs.popupMessage.open();
-
-
-          } else {
-            msgType.value = "top";
-            message.value = res.msg;
-            currentInstance.refs.popupMessage.open();
-          }
-
-        }).catch((resp: any) => {
-
-
-        });
-      }
-      else {
+          })
+          .catch((resp: any) => {});
+      } else {
         getform();
       }
     };
 
     ///获取表单
     const getform = () => {
-      http.post("/api/form/getFormJson", { key: query.value.formid }, "请稍等").then((res: any) => {
+      http
+        .post("/api/form/getFormJson", { key: query.value.formid }, "请稍等")
+        .then((res: any) => {
+          // m.$post(m.host + "/api/form/getFormJson", { key: m.query.formid }, "请稍等").then(res => {
+          if (res.success) {
+            var k = JSON.parse(res.data.designhtml);
 
-        // m.$post(m.host + "/api/form/getFormJson", { key: m.query.formid }, "请稍等").then(res => {
-        if (res.success) {
-          var k = JSON.parse(res.data.designhtml);
-
-          fromdata.value = k;
-          bindfield();
-          if (query.value.instanceid != null && query.value.instanceid != undefined && query.value.instanceid != "") {
-            getTabelDate();
+            fromdata.value = k;
+            field.value = k.field;
+            rules.value = k.rules;
+            if (
+              query.value.instanceid != null &&
+              query.value.instanceid != undefined &&
+              query.value.instanceid != ""
+            ) {
+              getTabelDate();
+            }
+          } else {
+            msgType.value = "top";
+            message.value = res.msg;
+            currentInstance.refs.popupMessage.open();
           }
-        } else {
-          msgType.value = "top";
-          message.value = res.msg;
-          currentInstance.refs.popupMessage.open();
-        }
-
-      }).catch(resp => {
+        })
+        .catch((resp) => {});
+    };
 
 
-      });
-    }
-
-
-    //绑定字段属性
-    const bindfield = () => {
-      debugger;
-      fromdata.value.data.forEach((key: any) => {
-
-        for (let keys in key.data) {
-          if (keys == "name") {
-
-            field.value.push({ [key.data[keys]]: key.data.value });
-
-          }
-        }
-        console.log(field.value);
-      });
-    }
 
     const getcomment = () => {
-      http.post("/api/workflowtasks/getcomment", { query: JSON.stringify(query.value) }, "请稍等").then((res: any) => {
-        // m.$post(m.host + "/api/workflowtasks/getcomment", { query: JSON.stringify(m.query) }, "请稍等...").then(res => {
-        if (res.success) {
-          commentlist.value = res.data;
-        }
-      });
-    }
+      http
+        .post(
+          "/api/workflowtasks/getcomment",
+          { query: JSON.stringify(query.value) },
+          "请稍等"
+        )
+        .then((res: any) => {
+          // m.$post(m.host + "/api/workflowtasks/getcomment", { query: JSON.stringify(m.query) }, "请稍等...").then(res => {
+          if (res.success) {
+            commentlist.value = res.data;
+          }
+        });
+    };
 
     const submit = () => {
-      debugger
+      debugger;
       var form = currentInstance.refs.form;
 
       msgType.value = "top";
       message.value = form.formData.id;
       currentInstance.refs.popupMessage.open();
-      console.log('表单错误信息：');
-      form.validate().then((res: any) => {
-        console.log('表单数据信息：', res);
-
-      }).catch((err: any) => {
-        console.log('表单错误信息：', err);
-      })
-    }
-    const getTabelDate = () => { }
+      console.log("表单错误信息：");
+      form
+        .validate()
+        .then((res: any) => {
+          console.log("表单数据信息：", res);
+        })
+        .catch((err: any) => {
+          console.log("表单错误信息：", err);
+        });
+    };
+    const getTabelDate = () => {};
     return {
-      submit, msgType, message, subform, fromdata, currentdata, sendoptions, buttonGroup
-    }
-  }
-
-}
-
+      submit,
+      msgType,
+      message,
+      subform,
+      fromdata,
+      currentdata,
+      sendoptions,
+      buttonGroup,
+    };
+  },
+};
 </script>
 
 <style lang="scss">
@@ -273,7 +294,7 @@ export default {
   justify-content: center;
   height: 92rpx;
   margin: 30rpx;
-  background-color: #007AFF;
+  background-color: #007aff;
 }
 
 .goods-carts {
