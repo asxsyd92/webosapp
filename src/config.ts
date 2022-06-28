@@ -1,5 +1,5 @@
 const config={
-	host:'https://asxsyd92.com',
+	host:'http://127.0.0.1:89',
 	
 }
 export default config;

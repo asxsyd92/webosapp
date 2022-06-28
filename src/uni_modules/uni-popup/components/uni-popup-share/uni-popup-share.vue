@@ -150,11 +150,11 @@
 		padding: 10px 0;
 		align-items: center;
 	}
-
+	/* #ifndef APP-NVUE */
 	.uni-share-content-item:active {
 		background-color: #f5f5f5;
 	}
-
+	/* #endif */
 	.uni-share-image {
 		width: 30px;
 		height: 30px;

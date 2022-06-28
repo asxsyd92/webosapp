@@ -120,8 +120,9 @@
 		/* #endif */
 	}
 
-
+	/* #ifndef APP-NVUE */
 	.uni-highlight:active {
 		background-color: #f1f1f1;
 	}
+			/* #endif */
 </style>

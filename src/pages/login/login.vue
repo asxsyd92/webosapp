@@ -222,10 +222,24 @@ export default {
 		}
 		//登录---目的拿到code
 		const wxLogin = () => {
-			if (uni.getStorageSync('islogin') ==false) {
+			if (uni.getStorageSync('islogin') ==false&&uni.getStorageSync("openid")!=null&&uni.getStorageSync("openid")!="") {
 				
-				http.post("/api/login/RefreshToken", { "code": uni.getStorageSync("access_token") }, "正在登录").then((res: any) => {
-					uni.setStorageSync("islogin", true);
+				http.post("/api/applets/ByOpenId", { "openid": uni.getStorageSync("openid"),"userid":uni.getStorageSync("userid") }, "正在登录").then((res: any) => {
+		
+				uni.setStorageSync('userid', res.data.id);
+				// #ifdef MP-QQ 
+				uni.setStorageSync('openid', res.data.qqopenid);
+				
+				//#endif 
+				
+				//#ifdef MP-WEIXIN  
+				uni.setStorageSync('openid', res.data.openid);
+				//#endif                        
+				uni.setStorageSync('username', res.data.name);
+				uni.setStorageSync("avatar", res.data.avatar);
+				uni.setStorageSync("userno", res.data.userno);
+				uni.setStorageSync("token", res.token);
+				uni.setStorageSync("islogin", true);
 					uni.switchTab({ //信息更新成功后跳转到小程序首页
 						url: '/pages/home/home'
 					});
@@ -296,14 +310,7 @@ export default {
 					message.value = '登陆失败，请稍后再试！';
 					currentInstance.refs.popupMessage.open();
 					uni.setStorageSync('userid', res.data.id);
-					// #ifdef MP-QQ 
-					uni.setStorageSync('openid', res.data.qqopenid);
-
-					//#endif 
-
-					//#ifdef MP-WEIXIN  
-					uni.setStorageSync('openid', res.data.openid);
-					//#endif                        
+					uni.setStorageSync('openid', res.data.openid);          
 					uni.setStorageSync('username', res.data.name);
 					uni.setStorageSync("avatar", res.data.avatar);
 					uni.setStorageSync("userno", res.data.userno);
@@ -313,10 +320,13 @@ export default {
 						url: '/pages/home/home'
 					});
 				} else {
-
-
-					message.value = '登陆失败，请稍后再试！';
+				    message.value = '找不到用户信息！';
 					currentInstance.refs.popupMessage.open();
+                    uni.clearStorageSync();
+					uni.reLaunch({
+						url:'/pages/login/login'
+					})
+	
 
 				}
 

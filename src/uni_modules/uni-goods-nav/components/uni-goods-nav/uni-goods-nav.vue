@@ -190,11 +190,11 @@
 		font-size: 14px;
 		color: #fff;
 	}
-
+	/* #ifndef APP-NVUE */
 	.uni-tab__cart-button-right:active {
 		opacity: 0.7;
 	}
-
+		/* #endif */
 	.uni-tab__dot-box {
 		/* #ifndef APP-NVUE */
 		display: flex;

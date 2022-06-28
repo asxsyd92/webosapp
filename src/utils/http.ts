@@ -48,7 +48,7 @@ class Http {
 
           uni.hideLoading();
           if (res.statusCode == 401) {
-             uni.setStorageSync("islogin", false);
+            uni.setStorageSync("islogin", false);
             uni.reLaunch({ url: '/pages/login/login' });
           }
           resolve(res.data);
