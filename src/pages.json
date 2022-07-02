@@ -37,6 +37,25 @@
 				
 			
 			}
+		},
+	
+		{
+			"path": "pages/blog/list",
+			"style": {
+					"navigationBarTitleText": "一本正经"
+				
+			
+			}
+		}
+		,
+	
+		{
+			"path": "pages/blog/details",
+			"style": {
+					"navigationBarTitleText": "详情"
+				
+			
+			}
 		}
 	    ,{
             "path" : "pages/login/login",

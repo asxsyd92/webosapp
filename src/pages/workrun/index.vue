@@ -101,15 +101,15 @@ export default {
 		]);
 		onLoad((event: any) => {
 			console.log(event);
-			query.flowid = event.flowid;
-			query.instanceid = event.instanceid;
-			query.taskid = event.taskid;
-			query.stepid = event.stepid; //$("#stepid").val();
-			query.groupid = event.groupid;
-			if (query.flowid != null && query.flowid != undefined && query.flowid != "") {
+			query.value.flowid = event.flowid;
+			query.value.instanceid = event.instanceid;
+			query.value.taskid = event.taskid;
+			query.value.stepid = event.stepid; //$("#stepid").val();
+			query.value.groupid = event.groupid;
+			if (query.value.flowid != null && query.value.flowid != undefined && query.value.flowid != "") {
 				isflow.value = true;
 			} else {
-				query.formid = event.formid;
+				query.value.formid = event.formid;
 			}
 			init();
 		});
@@ -119,9 +119,9 @@ export default {
 				http
 					.post(
 						"/api/workflowtasks/FlowInit", {
-						flowid: query.flowid,
-						stepid: query.stepid,
-						instanceid: query.instanceid
+						flowid: query.value.flowid,
+						stepid: query.value.stepid,
+						instanceid: query.value.instanceid
 					},
 						"正在初始化流程"
 					)

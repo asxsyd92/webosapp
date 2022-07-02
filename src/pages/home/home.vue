@@ -1,4 +1,5 @@
 <template>
+		<mescroll-uni ref="mescrollRef" @init="mescrollInit" @down="downCallback" >
 	<view class="container">
 
 		<uni-notice-bar show-icon scrollable show-get-more color="#2979FF" background-color="#EAF2FF"
@@ -32,23 +33,31 @@
 
 
 	</view>
+	</mescroll-uni>
 </template>
 
 <script setup lang="ts">
+import MescrollUni from "mescroll-uni/mescroll-uni.vue";
 import { ref } from 'vue';
 import { onLoad } from "@dcloudio/uni-app";
 import http from '../../utils/http';
 const list = ref([]) as any;
 
+	const mescrollInit = (mescroll: any) => {
+			console.log(mescroll)
+		//init(mescroll, true);
+	}
+	const downCallback = (mescroll: any) => {
+			console.log(mescroll)
+		init(mescroll);
+	}
 const getMore = function () {
 	uni.showToast({
 		title: '点击查看更多',
 		icon: 'none'
 	})
 }
-onLoad(() => {
-	init();
-})
+
 const change = function (e: any) {
 	let {
 		index
@@ -68,12 +77,14 @@ const change = function (e: any) {
 
 }
 
-const init = function () {
+const init =  (mescroll:any)=> {
 	http.post("/api/applets/getMenuList", { "type": 0 }, "请稍等").then((res: any) => {
 		if (res.success) {
 			list.value = res.data;
+			mescroll.endBySize(list.value.length,list.value.length, null)
 		}
 	}).catch((resp: any) => {
+		mescroll.endErr();
 	});
 }
 </script>
