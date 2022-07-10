@@ -138,7 +138,7 @@ import {
 } from "@dcloudio/uni-app";
 
 import http from '../../utils/http';
-import MescrollUni from "mescroll-uni/mescroll-uni.vue";
+
 const query = ref(new Object()) as any;
 const news = ref(new Object()) as any;
 

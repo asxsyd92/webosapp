@@ -1,5 +1,5 @@
 <template>
-		<mescroll-uni ref="mescrollRef" @init="mescrollInit" @down="downCallback" >
+		<mescroll-uni ref="mescrollRef"  @down="downCallback"  @up="upCallback">
 	<view class="container">
 
 		<uni-notice-bar show-icon scrollable show-get-more color="#2979FF" background-color="#EAF2FF"
@@ -12,8 +12,26 @@
 		</view>
 		<!-- #endif  -->
 		<!-- #ifdef MP-WEIXIN  -->
-		<ad unit-id="adunit-d0afedca1cfb4087" ad-type="video" ad-theme="white"></ad>
-		<!-- #endif  -->
+
+			<uni-swiper-dot class="uni-swiper-dot-box" 
+			:dots-styles="{
+						backgroundColor: 'rgba(255, 90, 95,0.3)',
+						border: '1px rgba(255, 90, 95,0.3) solid',
+						color: '#fff',
+						selectedBackgroundColor: 'rgba(255, 90, 95,0.9)',
+						selectedBorder: '1px rgba(255, 90, 95,0.9) solid'
+					}" field="content">
+			<swiper class="swiper-box" @change="change" >
+				<swiper-item v-for="(item, index) in 3" :key="index">
+					<view class="swiper-item" :class="'swiper-item' + index">
+					<ad unit-id="49fbbff61639d5c62ace1745f1f019b0" type="feeds"></ad>
+						<!-- <text style="color: #fff; font-size: 32px;">{{index+1}}</text> -->
+					</view>
+				</swiper-item>
+			</swiper>
+		</uni-swiper-dot>
+	<!-- 	<ad unit-id="adunit-d0afedca1cfb4087" ad-type="video" ad-theme="white"></ad>
+		 --><!-- #endif  -->
 		<!-- 因为swiper特性的关系，请指定swiper的高度 ，swiper的高度并不会被内容撑开-->
 		<swiper class="swiper" :indicator-dots="true">
 			<swiper-item>
@@ -37,27 +55,21 @@
 </template>
 
 <script setup lang="ts">
-import MescrollUni from "mescroll-uni/mescroll-uni.vue";
+
 import { ref } from 'vue';
 import { onLoad } from "@dcloudio/uni-app";
 import http from '../../utils/http';
 const list = ref([]) as any;
 
-	const mescrollInit = (mescroll: any) => {
-			console.log(mescroll)
-		//init(mescroll, true);
-	}
+
 	const downCallback = (mescroll: any) => {
 			console.log(mescroll)
 		init(mescroll);
 	}
-const getMore = function () {
-	uni.showToast({
-		title: '点击查看更多',
-		icon: 'none'
-	})
-}
 
+const upCallback=(mescroll: any)=>{
+		mescroll.endErr();
+}
 const change = function (e: any) {
 	let {
 		index
@@ -82,6 +94,8 @@ const init =  (mescroll:any)=> {
 		if (res.success) {
 			list.value = res.data;
 			mescroll.endBySize(list.value.length,list.value.length, null)
+		}else{
+			        mescroll.endErr();
 		}
 	}).catch((resp: any) => {
 		mescroll.endErr();

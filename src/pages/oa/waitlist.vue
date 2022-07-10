@@ -54,7 +54,7 @@
 	} from 'vue';
 	import {} from "@dcloudio/uni-app";
 	import http from '../../utils/http';
-	import MescrollUni from "mescroll-uni/mescroll-uni.vue";
+
 
 	const waitlist = ref([]) as any;
 	const mescrollInit = (mescroll: any) => {

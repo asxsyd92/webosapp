@@ -56,6 +56,26 @@
 				
 			
 			}
+		},
+	
+		{
+			"path": "pages/notice/list",
+			"style": {
+					"navigationBarTitleText": "通知公告",
+					   "navigationBarBackgroundColor": "#ff0500"
+				
+			
+			}
+		}
+		,
+	
+		{
+			"path": "pages/notice/details",
+			"style": {
+					"navigationBarTitleText": "详情",
+			        "navigationBarBackgroundColor": "#ff0500"
+			
+			}
 		}
 	    ,{
             "path" : "pages/login/login",

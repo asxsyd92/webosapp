@@ -5,8 +5,8 @@
         <view>
             <view class="article shadow clearfix sr-listshow" v-for="(value, index) in listData" :key="index">
                 <view class="article-left">
-                    <view style="width:100%;height:100%; margin: 0 auto;text-align:center; font-size: 70px;">
-                        <i :class="'fa ' + value.pic" :style="{ color: value.titlecolor }"></i>
+                    <view>
+                        <i class="layui-icon layui-icon-speaker" style="width:100%;height:100%; margin: 0 auto;text-align:center; font-size: 70px;color: red;"></i>
                     </view>
                 </view>
                 <view class="article-right">
@@ -66,7 +66,7 @@ onLoad((event: any) => {
 const listData = ref([]) as any;
 const mescrollInit = (mescroll: any) => {
     console.log(mescroll)
-    //init(mescroll, true);
+ 
 }
 const downCallback = (mescroll: any) => {
     console.log(mescroll)
@@ -96,8 +96,8 @@ const init = (mescroll: any, up: boolean) => {
         page = 1;
         limit = 10;
     }
-    http.post("/api/portalsite/GetNew", {
-        type: query.value.id,
+    http.post("/api/notice/GetNotecePage", {
+        // type: query.value.id,
         page: page,
         limit: limit
     }).then((res: any) => {
