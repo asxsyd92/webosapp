@@ -13,25 +13,9 @@
 		<!-- #endif  -->
 		<!-- #ifdef MP-WEIXIN  -->
 
-			<uni-swiper-dot class="uni-swiper-dot-box" 
-			:dots-styles="{
-						backgroundColor: 'rgba(255, 90, 95,0.3)',
-						border: '1px rgba(255, 90, 95,0.3) solid',
-						color: '#fff',
-						selectedBackgroundColor: 'rgba(255, 90, 95,0.9)',
-						selectedBorder: '1px rgba(255, 90, 95,0.9) solid'
-					}" field="content">
-			<swiper class="swiper-box" @change="change" >
-				<swiper-item v-for="(item, index) in 3" :key="index">
-					<view class="swiper-item" :class="'swiper-item' + index">
-					<ad unit-id="49fbbff61639d5c62ace1745f1f019b0" type="feeds"></ad>
-						<!-- <text style="color: #fff; font-size: 32px;">{{index+1}}</text> -->
-					</view>
-				</swiper-item>
-			</swiper>
-		</uni-swiper-dot>
-	<!-- 	<ad unit-id="adunit-d0afedca1cfb4087" ad-type="video" ad-theme="white"></ad>
-		 --><!-- #endif  -->
+		
+s 		<ad unit-id="adunit-d0afedca1cfb4087" ad-type="video" ad-theme="white"></ad>
+		 <!-- #endif  -->
 		<!-- 因为swiper特性的关系，请指定swiper的高度 ，swiper的高度并不会被内容撑开-->
 		<swiper class="swiper" :indicator-dots="true">
 			<swiper-item>

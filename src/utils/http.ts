@@ -31,9 +31,12 @@ class Http {
   /* POST 方法 */
   post<T>(url: string, params?: object, _object = {}, msg?: string, _msg = "", headers?: object) {
     return new Promise((resolve, reject) => {
-      uni.showLoading({
-        title: msg == undefined ? '加载中' : msg
-      });
+		if(msg!=null&&msg!=undefined&&msg!=""){
+			uni.showLoading({
+			  title: msg == undefined ? '加载中' : msg
+			});
+		}
+ 
       var token = uni.getStorageSync('token');
       console.log(token);
       uni.request({

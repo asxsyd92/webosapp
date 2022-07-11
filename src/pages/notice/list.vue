@@ -25,7 +25,7 @@
                             @click="dealwith(value)">阅读全文</span>
                     </view>
                 </view>
-                <view class="flag flag-left">推荐</view>
+                <view class="flag flag-left">通知公告</view>
 
                 <view class="ad-view" v-if="(index > 0 && (index + 1) % 9 == 0)">
                     <!-- #ifdef MP-QQ -->
