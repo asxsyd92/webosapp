@@ -12,9 +12,7 @@
 		</view>
 		<!-- #endif  -->
 		<!-- #ifdef MP-WEIXIN  -->
-
-		
-s 		<ad unit-id="adunit-d0afedca1cfb4087" ad-type="video" ad-theme="white"></ad>
+		<ad unit-id="adunit-d0afedca1cfb4087" ad-type="video" ad-theme="white"></ad>
 		 <!-- #endif  -->
 		<!-- 因为swiper特性的关系，请指定swiper的高度 ，swiper的高度并不会被内容撑开-->
 		<swiper class="swiper" :indicator-dots="true">
@@ -55,9 +53,7 @@ const upCallback=(mescroll: any)=>{
 		mescroll.endErr();
 }
 const change = function (e: any) {
-	let {
-		index
-	} = e.detail as any;
+	let {index} = e.detail as any;
 	console.log(e);
 	let url = "";
 	if (list.value[index].tag.indexOf("?") > -1) {
