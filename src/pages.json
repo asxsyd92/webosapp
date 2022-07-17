@@ -96,6 +96,24 @@
             }
             
         }
+        ,{
+            "path" : "pages/my/designsign",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/my/mysign",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],	"tabBar": {
 		"color": "#7A7E83",
 		"selectedColor": "#007AFF",

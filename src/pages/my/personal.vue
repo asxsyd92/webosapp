@@ -4,7 +4,7 @@
 	
 	<view class="ttx" >
 	
-	        <img class="tx" src="https://img0.baidu.com/it/u=105958903,507985946&fm=253&fmt=auto&app=138&f=JPEG?w=281&h=500">
+	        <img class="tx" :src="avatar"/>
 	     	
 	     </view>
 	  	<view class="ttx" >
@@ -22,11 +22,12 @@
 	  	<uni-icons type="chat" size="20" color="red" ></uni-icons>
 	    <text class="remind-item-title">我的消息</text>
 	  </view>
+	  <navigator url="./mysign">
 	  <view class="remind-item" >
-		<uni-icons type="list" size="20" color="red" ></uni-icons>
-	    <text class="remind-item-title">我的待办</text>
+		<uni-icons type="auth" size="20" color="red" ></uni-icons>
+	    <text class="remind-item-title">我的签名</text>
 	  </view>
-
+    </navigator>
 	  <view class="remind-item" >
 	<uni-icons type="help" size="20" color="red" ></uni-icons>
 	    <text class="remind-item-title">帮助</text>
@@ -36,7 +37,7 @@
 		<uni-list >
 	
 		<uni-list-item :show-extra-icon="true" :extra-icon="extraIcon1" title="账号：" />
-	      <uni-list-item :show-extra-icon="true" :extra-icon="extraIcon1" title="积分：" />
+	    <uni-list-item :show-extra-icon="true" :extra-icon="extraIcon1" title="积分：" />
 	
 		
 		 </uni-list>
@@ -45,8 +46,9 @@
 </template>
 
 <script lang="ts" setup>
-
-
+import { ref} from 'vue';
+const username=ref("");
+const avatar=uni.getStorageSync("avatar");
 	const downCallback = (mescroll: any) => {
 			console.log(mescroll);
 			mescroll.endErr();
@@ -63,52 +65,7 @@ const go =()=>{
 		animationDuration: 200
 	});
 } 
-// import qianTree from '@/components/tree/tree.vue';
 
-// export default {
-// 	components: {
-// 		qianTree
-// 	},
-// 	data() {
-// 		return {
-// 			list: [{
-// 				"children": [{
-// 					"children": [{
-// 						"title": "伽罗",
-// 						"id": 2
-// 					}, {
-// 						"title": "艾琳",
-// 						"id": 3
-// 					}],
-// 					"title": "手长部门",
-// 					"id": 1
-// 				}],
-// 				"title": "射手发育部",
-// 				"id": 0
-// 			}],
-// 			multiple: true,
-// 			selectParent: true,
-// 			flod: true,
-// 		}
-// 	},
-// 	onLoad() {
-
-// 	},
-// 	methods: {
-// 		// 确定回调事件
-// 		treeConfirm(e) {
-// 			console.log(e)
-// 		},
-// 		// 取消回调事件
-// 		treeCancel(e) {
-// 			console.log(e)
-// 		},
-// 		// 显示树形选择器
-// 		showTree() {
-// 			this.$refs.qiantree._show();
-// 		},
-// 	}
-// }
 </script>
 
 <style lang="scss">

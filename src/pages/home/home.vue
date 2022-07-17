@@ -2,8 +2,7 @@
 		<mescroll-uni ref="mescrollRef"  @down="downCallback"  @up="upCallback">
 	<view class="container">
 
-		<uni-notice-bar show-icon scrollable show-get-more color="#2979FF" background-color="#EAF2FF"
-			text="uni-app 版正式发布，开发一次，同时发布iOS、Android、H5、微信小程序、支付宝小程序、百度小程序、头条小程序等7大平台。" />
+		<uni-notice-bar v-if="notice" :speed="50" show-icon scrollable show-get-more color="#2979FF" background-color="#EAF2FF"  :text="notice.title" @getmore="go(notice)"/>
 
 
 		<!-- #ifdef MP-QQ -->
@@ -41,8 +40,9 @@
 import { ref } from 'vue';
 import { onLoad } from "@dcloudio/uni-app";
 import http from '../../utils/http';
+import utils from '../../utils/utils';
 const list = ref([]) as any;
-
+const notice = ref([]) as any;
 
 	const downCallback = (mescroll: any) => {
 			console.log(mescroll)
@@ -52,7 +52,7 @@ const list = ref([]) as any;
 const upCallback=(mescroll: any)=>{
 		mescroll.endErr();
 }
-const change = function (e: any) {
+const change = (e: any)=> {
 	let {index} = e.detail as any;
 	console.log(e);
 	let url = "";
@@ -68,11 +68,27 @@ const change = function (e: any) {
 	});
 
 }
-
+const go=(e:any)=>{
+	uni.navigateTo({
+		url: '/pages/notice/details?id=' + e.id,
+		animationType: 'pop-in',
+		animationDuration: 200
+	});
+}
 const init =  (mescroll:any)=> {
 	http.post("/api/applets/getMenuList", { "type": 0 }, "请稍等").then((res: any) => {
 		if (res.success) {
 			list.value = res.data;
+			if(res.notice!==undefined){
+			if(res.notice.length>0){
+		    notice.value=res.notice[0];
+			setInterval(function(){
+				let d=utils.random(0,res.notice.length-1);
+				notice.value=res.notice[d];
+			},9000)	
+			}
+			
+			}
 			mescroll.endBySize(list.value.length,list.value.length, null)
 		}else{
 			        mescroll.endErr();

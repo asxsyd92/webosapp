@@ -1,10 +1,12 @@
 <template>
-	<view>
+	<mescroll-uni ref="mescrollRef" @down="downCallback" @up="upCallback">
+
+
 		<view class="sign_conent_box">
 			<view class="sign_conent">
 				<view class="sign_conent_title">
-					你已连续签到
-					<span class="sign_conent_title_span">8</span>
+					你已签到
+					<span class="sign_conent_title_span">{{day}}</span>
 					天
 				</view>
 				<view class="sign_list_aligns">
@@ -14,72 +16,119 @@
 							<view class="scroll_view_itemsv">
 								<view class="scroll_view_item">
 									<view class="scroll_view_item_img_box">
-								<!-- 		<image src="../../static/sign_bg.png" class="scroll_view_item_img" mode=""></image> -->
-										<view class="scroll_view_item_top">{{ item.discount }}</view>
+										<!-- 		<image src="../../static/sign_bg.png" class="scroll_view_item_img" mode=""></image> -->
+										<view class="scroll_view_item_top"></view>
 										<view class="scroll_view_item_bottom">一张</view>
 									</view>
-									<view class="scroll_view_item_tips">签到{{ item.day }}天</view>
+									<view class="scroll_view_item_tips">签到天</view>
 								</view>
-								<view class="scroll_xian" v-show="index !== sign_list.length - 1"></view>
+								<!-- <view class="scroll_xian" v-show="index !== sign_list.length - 1"></view> -->
 							</view>
 						</view>
 					</scroll-view>
 				</view>
-				<view class="sign_conent_btn" @click="cksigin">今日签到</view>
+				<view class="sign_conent_btn" @click="cksigin">签到</view>
 			</view>
 		</view>
-		<uni-calendar class="uni-calendar--hook" :selected="selected" :range="true"  />
-	</view>
+			<!-- #ifdef MP-QQ -->
+    <view class="adContainer">
+	<ad  unit-id='c2b6e06149d349798bf59a7c14e3e4f7' type="card"></ad>
+    </view>
+    <!-- #endif  -->
+
+	<!-- #ifdef MP-WEIXIN  -->
+      <view class="adContainer">
+       <ad  unit-id="adunit-fedf1e291603300b"  bindload="adLoad" binderror="adError" bindclose="adClose"></ad>
+     </view>
+    <!-- #endif  -->
+		<uni-calendar class="uni-calendar--hook" :selected="selected" :range="true" />
+		<!-- 消息提示 -->
+		<uni-popup id="popupMessage" ref="popupMessage" type="message">
+			<uni-popup-message :type="type" :message="message" :duration="2000"></uni-popup-message>
+		</uni-popup>
+		<!-- 提示窗示例 -->
+		<uni-popup ref="alertDialog" type="dialog">
+			<uni-popup-dialog :type="config.popupmessage.success" cancelText="我不需要" confirmText="好的" title="温馨提示"
+				:content="msg" @confirm="dialogConfirm" @close="dialogClose"></uni-popup-dialog>
+		</uni-popup>
+ 
+
+	</mescroll-uni>
 </template>
 
 <script lang="ts" setup >
-	function getDate(date, AddDayCount = 0) {
-			if (!date) {
-				date = new Date()
-			}
-			if (typeof date !== 'object') {
-				date = date.replace(/-/g, '/')
-			}
-			const dd = new Date(date)
-	
-			dd.setDate(dd.getDate() + AddDayCount) // 获取AddDayCount天后的日期
-	
-			const y = dd.getFullYear()
-			const m = dd.getMonth() + 1 < 10 ? '0' + (dd.getMonth() + 1) : dd.getMonth() + 1 // 获取当前月份的日期，不足10补0
-			const d = dd.getDate() < 10 ? '0' + dd.getDate() : dd.getDate() // 获取当前几号，不足10补0
-			return {
-				fullDate: y + '-' + m + '-' + d,
-				year: y,
-				month: m,
-				date: d,
-				day: dd.getDay()
-			}
-		}
-	const sign_list="";
-	const data="";
-			const 	cksigin=()=> {
-						uni.showToast({
-							title:"签到成功"
-						})
-					}
-				const	selected = [{
-											date: getDate(new Date(),-3).fullDate,
-											info: '打卡'
-										},
-										{
-											date: getDate(new Date(),-2).fullDate,
-											info: '签到',
-											data: {
-												custom: '自定义信息',
-												name: '自定义消息头'
-											}
-										},
-										{
-											date: getDate(new Date(),-1).fullDate,
-											info: '已打卡'
-										}
-									];
+import { ref } from 'vue';
+import http from '../../utils/http';
+import utils from '../../utils/utils';
+import config from '@/config.ts';
+const selected = ref([]);
+const sign_list = ref([]);
+const data = ref([]);
+const message = ref("");
+const username = ref("");
+const type = ref("");
+const msg = ref("");
+const day=ref(0);
+const alertDialog = ref(null) as any;
+const popupMessage = ref(null) as any;
+const videoadd = ref(false) as any;
+const downCallback = (mescroll: any) => {
+	initi();
+	mescroll.endErr();
+	//init(mescroll);
+}
 
+const upCallback = (mescroll: any) => {
+	mescroll.endErr();
+}
+const dialogConfirm = () => {
+
+    utils.wxads('/api/applets/Integral',{},videoadd.value,http);
+	videoadd.value=true;
+}
+const dialogClose = () => {
+	console.log('点击关闭')
+}
+const initi = () => {
+	http.post("/api/applets/getSinList", {}).then((res: any) => {
+		if (res.success) {
+			day.value=res.data.length;
+			selected.value = res.data;
+		} else {
+
+		}
+
+	}).catch((res: any) => {
+
+	})
+
+}
+const cksigin = () => {
+	http.post("/api/applets/Signin", {}).then((res: any) => {
+		if (res.success) {
+			console.log(popupMessage.value);
+			message.value = res.msg;
+			msg.value = res.msg + "观看视频可获得10到100积分，积分可解锁文章";
+			alertDialog.value.open();
+		} else {
+			message.value = res.msg;
+			type.value = config.popupmessage.error
+			popupMessage.value.open();
+		}
+
+	}).catch((res: any) => {
+		message.value = "网络错误";
+		type.value = config.popupmessage.error
+		popupMessage.value.open();
+	})
+}
+
+
+
+const adsinti = () => {
+	
+
+	}
 
 
 </script>
@@ -90,40 +139,49 @@
 	display: flex;
 	justify-content: center;
 	margin-top: 10upx;
+    text-align: center;
 	.sign_conent {
 		width: 99%;
 		background: white;
 		border-radius: 20upx;
 		padding: 20upx 12upx;
 		box-sizing: border-box;
+
 		.sign_conent_title {
 			width: 100%;
 			font-size: 36upx;
 			font-weight: bold;
 			color: #333333;
+
 			.sign_conent_title_span {
 				color: #ff6526 !important;
 			}
 		}
+
 		.sign_list_aligns {
 			width: 100%;
-			padding: 48upx 0 64upx 0;
+			padding: 20upx;
 			box-sizing: border-box;
+
 			.scroll-view_H {
 				width: 100%;
 				display: flex;
 				white-space: nowrap;
+
 				.scroll_view_items {
 					display: inline-block;
 				}
+
 				.scroll_view_itemsv {
 					display: flex;
 				}
+
 				.scroll_view_item {
 					.scroll_view_item_img_box {
 						width: 108upx;
 						height: 108upx;
 						position: relative;
+
 						.scroll_view_item_top {
 							font-size: 20upx;
 							color: #bf8d46;
@@ -134,6 +192,7 @@
 							text-align: center;
 							z-index: 1;
 						}
+
 						.scroll_view_item_bottom {
 							font-size: 12upx;
 							color: #ffe29d;
@@ -143,6 +202,7 @@
 							z-index: 2;
 						}
 					}
+
 					.scroll_view_item_tips {
 						width: 108upx;
 						text-align: center;
@@ -150,6 +210,7 @@
 						padding-top: 16upx;
 						color: #333333;
 					}
+
 					.scroll_view_item_img {
 						width: 108upx;
 						height: 108upx;
@@ -159,6 +220,7 @@
 						z-index: 0;
 					}
 				}
+
 				.scroll_xian {
 					width: 64upx;
 					height: 2upx;
@@ -167,6 +229,7 @@
 				}
 			}
 		}
+
 		.sign_conent_btn {
 			width: 100%;
 			border-radius: 45upx;
